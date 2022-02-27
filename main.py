@@ -21,11 +21,9 @@ GOOD_WORDS = [
 BAD_WORDS = [
     "\[Pp]lunge*d",
     "\[Ww]ere off",
-    "\[Ff]allen",
-    "\[Ff]ell",
+    "\[Ff][ea]ll*en",
     "\[hH]ard hit",
-    "\[lL]ost",
-    "[lL]ose",
+    "\[lL]os[te]",
     "\[Cc]ollapse*d",
     "\[Hh]urt*ing",
     "\[dD]rop*ped",
@@ -57,11 +55,18 @@ def question_cat(question: str) -> Q_type:
 
 
 def inc_or_dec(question: str) -> bool:
-    return
+    if(question_cat(question) == Q_type.WHAT or question_cat(question) == Q_type.HOW):
+        for g_word in GOOD_WORDS:
+            if g_word in question:
+                return True
+        for b_word in BAD_WORDS:
+            if b_word in question:
+                return False
+    return None
 
 
 def find_line(company: str, inc_or_dec: bool) -> str:
-    return None
+    return
 
 
 def find_amt(company: str, line: str) -> int:
