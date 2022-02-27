@@ -2,8 +2,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
-from numpy import true_divide
-
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
     'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
@@ -108,7 +106,6 @@ def find_line(question: str) -> str:
     for key in stock_dict:
         for word in stock_dict[key]:
             if question in stock_dict[key]:
-                print("got it")
                 company_name = stock_dict[key]
     print(company_name)
     for line in test1:
