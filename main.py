@@ -54,7 +54,7 @@ def question_cat(question: str) -> Q_type:
     return Q_type.INVALID
 
 
-def inc_or_dec(question: str) -> bool:
+def q_inc_or_dec(question: str) -> bool:
     if(question_cat(question) == Q_type.WHAT or question_cat(question) == Q_type.HOW):
         for g_word in GOOD_WORDS:
             if g_word in question:
