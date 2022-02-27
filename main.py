@@ -2,36 +2,40 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
-GOOD_WORDS = ["Gain",
-              "Comeback",
-              "Surged",
-              "Exploded",
-              "Upturn",
-              "Recovery",
-              "Rebounded",
-              "Burst",
-              "Bought",
-              "Turned up",
-              "Higher",
-              "Up"
+GOOD_WORDS = [
+    "\Gain*ed",
+    "\Comeback",
+    "\Surge*ed",
+    "\Explode*d",
+    "\Upturn*ed",
+    "\Recove*d|ry|r",
+    "\Rebound|ed",
+    "\Burst",
+    "\Bought",
+    "\Buy",
+    "\Turn*ed up",
+    "\High*er",
+    "\Up"
 ]
 
 BAD_WORDS = [
-    "Plunge",
-    "Were off",
-    "Fallen",
-    "Hard hit",
-    "Lost",
-    "Collapse",
-    "Hurt",
-    "Drop",
-    "Decline",
-    "Crash",
-    "Drifted",
-    "Crush",
-    "Troubling",
-    "Down",
-    "Hit bottom",
+    "\Plunge*d",
+    "\Were off",
+    "\Fallen",
+    "\Fell",
+    "\Hard hit",
+    "\Lost",
+    "Lose",
+    "\Collapse*d",
+    "\Hurt*ing",
+    "\Drop*ped",
+    "\Decline*d",
+    "\Crash*ed",
+    "\Drift*ed",
+    "\Crush*ed",
+    "\Trouble*ed",
+    "\Down*ed",
+    "\Hit*s bottom",
 ]
 
 
