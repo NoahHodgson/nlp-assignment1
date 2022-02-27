@@ -3,20 +3,20 @@ import re
 from enum import Enum
 
 GOOD_WORDS = [
-    "[Gg]ain*ed",
+    "[Gg]ain[ed]*",
     "[Cc]omeback",
-    "[Ss]urge*ed",
-    "[Ee]xplode*d",
-    "[Uu]pturn*ed",
+    "[Ss]urge[ed]*",
+    "[Ee]xploded*",
+    "[Uu]pturn[ed]*",
     "[Rr]ecove[d|ry|r]",
-    "[Rr]ebound|ed",
+    "[Rr]ebound[ed]*",
     "[Bb]urst",
     "[Bb]ought",
     "[Bb]uy",
-    "[Tt]urn*ed up",
-    "[hH]igh*er",
+    "[Tt]urn[ed]* up",
+    "[hH]igh[er]*",
     "[uU]p",
-    "[Rr][io]se*n"
+    "[Rr][io]sen*"
 ]
 
 BAD_WORDS = [
