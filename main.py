@@ -2,6 +2,8 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
+from numpy import true_divide
+
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
     'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
@@ -77,6 +79,11 @@ def question_cat(question: str) -> Q_type:
         return Q_type.HOW
     return Q_type.INVALID
 
+def question_open_or_close(question: str) -> bool:
+    if(re.search("\AOpen[ed]*", question) != None or re.search("\AClose[ed]*", question) != None):
+        return True
+    else: 
+        return False
 
 def q_inc_or_dec(question: str) -> bool:
     if(question_cat(question) == Q_type.WHAT or question_cat(question) == Q_type.HOW):
