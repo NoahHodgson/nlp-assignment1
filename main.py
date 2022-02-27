@@ -79,6 +79,7 @@ def question_cat(question: str) -> Q_type:
         return Q_type.HOW
     return Q_type.INVALID
 
+#arbitrary
 def question_open_or_close(question: str) -> bool:
     if(re.search("\AOpen[ed]*", question) != None or re.search("\AClose[ed]*", question) != None):
         return True
