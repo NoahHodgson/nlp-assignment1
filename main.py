@@ -2,6 +2,28 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
+stock_dict={
+    'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
+    'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
+    'Blue Chip':['Blue Chip'],
+    'AMR':['AMR', 'Alpha Metallurgical'],
+    'American Airlines':['American Airlines', 'AAL'],
+    'T. Rowe Price':['T. Rowe Price', 'TROW'],
+    'Merril Lynch':['Merril Lynch', 'MER'],
+    'Commerzbank AG':['Commerzbank AG', 'CRZBY'],
+    'Jefferies':['Jefferies', 'JEF'],
+    'Shearson':['Shearson', 'SHL'],
+    'General Motors':['General Motors', 'GM'],
+    'Procter & Gamble':['Procter & Gamble', 'PG'],
+    'Kellogg Co.':['Kellogg Co.', 'K'],
+    'Alcan Aluminum':['Alcan Aluminum', 'AAN'],
+    'McDonalds':['McDonalds', 'MCD'],
+    'Batterymarch':['Batterymarch', 'BTYM'],
+    'S&P':['S&P', 'Standard and Poor', 'Standard & Poor'],
+    'Ogallala':['Ogallala'],
+    'IDS':['IDS', 'Identillect'],
+}
+
 GOOD_WORDS = [
     "\[Gg]ain*ed",
     "\[Cc]omeback",
