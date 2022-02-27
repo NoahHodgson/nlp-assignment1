@@ -3,38 +3,40 @@ import re
 from enum import Enum
 
 GOOD_WORDS = [
-    "\[Gg]ain*ed",
-    "\[Cc]omeback",
-    "\[Ss]urge*ed",
-    "\[Ee]xplode*d",
-    "\[Uu]pturn*ed",
-    "\[Rr]ecove*d|ry|r",
-    "\[Rr]ebound|ed",
-    "\[Bb]urst",
-    "\[Bb]ought",
-    "\[Bb]uy",
-    "\[Tt]urn*ed up",
-    "\[hH]igh*er",
-    "\[uU]p"
+    "[Gg]ain*ed",
+    "[Cc]omeback",
+    "[Ss]urge*ed",
+    "[Ee]xplode*d",
+    "[Uu]pturn*ed",
+    "[Rr]ecove[d|ry|r]",
+    "[Rr]ebound|ed",
+    "[Bb]urst",
+    "[Bb]ought",
+    "[Bb]uy",
+    "[Tt]urn*ed up",
+    "[hH]igh*er",
+    "[uU]p",
+    "[Rr][io]se*n"
 ]
 
 BAD_WORDS = [
-    "\[Pp]lunge*d",
-    "\[Ww]ere off",
-    "\[Ff][ea]ll*en",
-    "\[hH]ard hit",
-    "\[lL]os[te]",
-    "\[Cc]ollapse*d",
-    "\[Hh]urt*ing",
-    "\[dD]rop*ped",
-    "\[dD]ecline*d",
-    "\[Cc]rash*ed",
-    "\[dD]rift*ed",
-    "\[cC]rush*ed",
-    "\[Tt]rouble*ed",
-    "\[dD]own*ed",
-    "\[Hh]it*s bottom",
+    "[Pp]lunged*",
+    "[Ww]ere off",
+    "[Ff][ea]ll[en]*",
+    "[hH]ard hit",
+    "[lL]os[te]",
+    "[Cc]ollapsed*",
+    "[Hh]urt[ing]*",
+    "[dD]rop[ped]*",
+    "[dD]eclined*",
+    "[Cc]rash[ed]*",
+    "[dD]rift[ed]*",
+    "[cC]rush[ed]*",
+    "[Tt]rouble[ed]*",
+    "[dD]own[ed]*",
+    "[Hh]its* bottom",
 ]
+
 
 
 class Q_type(Enum):
@@ -57,10 +59,12 @@ def question_cat(question: str) -> Q_type:
 def q_inc_or_dec(question: str) -> bool:
     if(question_cat(question) == Q_type.WHAT or question_cat(question) == Q_type.HOW):
         for g_word in GOOD_WORDS:
-            if g_word in question:
+            if re.search(g_word, question) != None:
+                print(g_word)
                 return True
         for b_word in BAD_WORDS:
-            if b_word in question:
+            if re.search(b_word, question) != None:
+                print(b_word)
                 return False
     return None
 
@@ -80,6 +84,9 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
+    print(question_cat("How much did the S&P drop?"))
+    print(q_inc_or_dec("How much did the S&P drop?"))
+    print(q_inc_or_dec("How much did IBM go up?"))
     print("Done!")
 
 
