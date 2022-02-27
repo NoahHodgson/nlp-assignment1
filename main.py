@@ -26,6 +26,7 @@ stock_dict={
     'IDS':['IDS', 'Identillect'],
 }
 
+
 GOOD_WORDS = [
     "[Gg]ain[ed]*",
     "[Cc]omeback",
@@ -79,9 +80,9 @@ def question_cat(question: str) -> Q_type:
         return Q_type.HOW
     return Q_type.INVALID
 
-#arbitrary
+
 def question_open_or_close(question: str) -> bool:
-    if(re.search("\AOpen[ed]*", question) != None or re.search("\AClose[ed]*", question) != None):
+    if(re.search("[Oo]pen[ed]*", question) != None or re.search("[Cc]lose[ed]*", question) != None):
         return True
     else: 
         return False
@@ -99,8 +100,13 @@ def q_inc_or_dec(question: str) -> bool:
     return None
 
 
-def find_line(company: str, inc_or_dec: bool) -> str:
-    return
+def find_line(question: str, filename: str) -> str:
+    first_file = open("test1.txt", "r")
+    test1 = first_file.readlines()
+    for line in test1:
+        print("here")
+
+    first_file.close()
 
 
 def find_amt(company: str, line: str) -> int:
