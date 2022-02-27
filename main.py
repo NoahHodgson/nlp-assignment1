@@ -2,6 +2,39 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
+GOOD_WORDS = ["Gain",
+              "Comeback",
+              "Surged",
+              "Exploded",
+              "Upturn",
+              "Recovery",
+              "Rebounded",
+              "Burst",
+              "Bought",
+              "Turned up",
+              "Higher",
+              "Up"
+]
+
+BAD_WORDS = [
+    "Plunge",
+    "Were off",
+    "Fallen",
+    "Hard hit",
+    "Lost",
+    "Collapse",
+    "Hurt",
+    "Drop",
+    "Decline",
+    "Crash",
+    "Drifted",
+    "Crush",
+    "Troubling",
+    "Down",
+    "Hit bottom",
+]
+
+
 class Q_type(Enum):
     DID = 0
     WHAT = 1
@@ -22,11 +55,14 @@ def question_cat(question: str) -> Q_type:
 def inc_or_dec(question: str) -> bool:
     return
 
+
 def find_line(company: str, inc_or_dec: bool) -> str:
     return None
 
+
 def find_amt(company: str, line: str) -> int:
     return
+
 
 def main():
     first_file = open("test1.txt", "r")
@@ -36,6 +72,7 @@ def main():
     first_file.close()
     second_file.close()
     print("Done!")
+
 
 if __name__ == "__main__":
     main()
