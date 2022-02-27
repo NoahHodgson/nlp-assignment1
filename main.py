@@ -86,7 +86,6 @@ def question_open_or_close(question: str) -> bool:
         return True
     if re.search("[Cc]lose[ed]*", question) != None:
         return False
-    
     return None
 
 def q_inc_or_dec(question: str) -> bool:
@@ -102,12 +101,20 @@ def q_inc_or_dec(question: str) -> bool:
     return None
 
 
-def find_line(question: str, filename: str) -> str:
+def find_line(question: str) -> str:
     first_file = open("test1.txt", "r")
     test1 = first_file.readlines()
+    company_name = []
+    for key in stock_dict:
+        for word in stock_dict[key]:
+            if question in stock_dict[key]:
+                print("got it")
+                company_name = stock_dict[key]
+    print(company_name)
     for line in test1:
-        print("here")
-
+        for name in company_name:
+            if name in line:
+                print("found " + name + " in line " + line)
     first_file.close()
 
 
@@ -122,9 +129,7 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
-    print(question_cat("How much did the S&P drop?"))
-    print(q_inc_or_dec("How much did the S&P drop?"))
-    print(q_inc_or_dec("How much did IBM go up?"))
+    find_line("the Dow")
     print("Done!")
 
 
