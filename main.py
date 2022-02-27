@@ -99,9 +99,10 @@ def q_inc_or_dec(question: str) -> bool:
     return None
 
 
-def find_line(question: str) -> str:
+def find_line(question: str):
     first_file = open("test1.txt", "r")
     test1 = first_file.readlines()
+    answers = []
     company_name = []
     for key in stock_dict:
         for word in stock_dict[key]:
@@ -111,7 +112,8 @@ def find_line(question: str) -> str:
     for line in test1:
         for name in company_name:
             if name in line:
-                print("found " + name + " in line " + line)
+                answers.append(line)
+    return answers
     first_file.close()
 
 
@@ -126,7 +128,6 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
-    find_line("the Dow")
     print("Done!")
 
 
