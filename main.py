@@ -82,10 +82,12 @@ def question_cat(question: str) -> Q_type:
 
 
 def question_open_or_close(question: str) -> bool:
-    if(re.search("[Oo]pen[ed]*", question) != None or re.search("[Cc]lose[ed]*", question) != None):
+    if re.search("[Oo]pen[ed]*", question) != None:
         return True
-    else: 
+    if re.search("[Cc]lose[ed]*", question) != None:
         return False
+    
+    return None
 
 def q_inc_or_dec(question: str) -> bool:
     if(question_cat(question) == Q_type.WHAT or question_cat(question) == Q_type.HOW):
