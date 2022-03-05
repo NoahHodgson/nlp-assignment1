@@ -2,8 +2,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
-from numpy import true_divide
-
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
     'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
@@ -118,9 +116,9 @@ def find_line(question: str) -> str:
     first_file.close()
 
 
-def find_amt(company: str, line: str) -> int:
+def find_amt(company: list[str], line: list[str]) -> int:
+    print(line)
     return
-
 
 def main():
     first_file = open("test1.txt", "r")
@@ -129,7 +127,7 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
-    find_line("the Dow")
+    find_line("UAL")
     print("Done!")
 
 
