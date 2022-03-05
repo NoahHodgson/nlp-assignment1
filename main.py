@@ -130,7 +130,7 @@ def find_amt(company: str, line: str, question: str) -> str:
         if re.search(name, line) != None:
             print(name)
             match = re.search(name, line)
-            numbers = re.findall("[0-9]+[.]*[0-9]*] | [0-9]+[\s]*[0-9]*[/]*[0-9]*", line)
+            numbers = re.findall("[0-9]+[.]+[0-9]+|[0-9]+[\s]*[0-9]*[/]*[0-9]*|[0-9]+[.]*[0-9]*", line)
             print(numbers)
             return "hi"
             
