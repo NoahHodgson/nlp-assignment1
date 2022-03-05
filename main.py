@@ -39,7 +39,8 @@ GOOD_WORDS = [
     "[Tt]urn[ed]* up",
     "[hH]igh[er]*",
     "[uU]p",
-    "[Rr][io]sen*"
+    "[Rr][io]sen*",
+    "[Jj]ump[ed]*"
 ]
 
 BAD_WORDS = [
@@ -98,9 +99,8 @@ def q_inc_or_dec(question: str) -> bool:
                 return False
     return None
 
-
-def find_line(question: str):
-    first_file = open("test1.txt", "r")
+def find_line(question: str, filename: str):
+    first_file = open(filename, "r")
     test1 = first_file.readlines()
     answers = []
     company_name = []
@@ -117,8 +117,24 @@ def find_line(question: str):
     first_file.close()
 
 
-def find_amt(company: str, line: str) -> int:
-    return
+def find_amt(company: str, line: str, question: str) -> str:
+    word_list = []
+    if q_inc_or_dec(question):
+        word_list = GOOD_WORDS  
+        print("good works being used")
+    elif not q_inc_or_dec(question):
+        word_list = BAD_WORDS
+        print("bad words being used")
+    match = ""
+    for name in stock_dict[company]:
+        if re.search(name, line) != None:
+            print(name)
+            match = re.search(name, line)
+            numbers = re.findall("[0-9]+[.]*[0-9]*] | [0-9]+[\s]*[0-9]*[/]*[0-9]*", line)
+            print(numbers)
+            return "hi"
+            
+
 
 
 def main():
@@ -128,6 +144,8 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
+    sentence = "The Dow Jones Industrial Average jumped sharply yesterday to close at 2657.38, panic didn't sweep the world's markets, and investors large and small seemed to accept Friday's dizzying 3 1/2 190-point plunge as a sharp correction, not a calamity."
+    find_amt('DOW', sentence, "How much did the Dow rise?")
     print("Done!")
 
 
