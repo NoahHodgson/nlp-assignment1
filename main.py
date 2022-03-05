@@ -1,3 +1,4 @@
+from typing import List
 from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
@@ -80,44 +81,45 @@ def question_cat(question: str) -> Q_type:
     return Q_type.INVALID
 
 
-def question_open_or_close(question: str) -> bool:
+def q_open_or_close(question: str) -> bool:
     if re.search("[Oo]pen[ed]*", question) != None:
         return True
     if re.search("[Cc]lose[ed]*", question) != None:
         return False
     return None
 
-def q_inc_or_dec(question: str) -> bool:
-    if(question_cat(question) == Q_type.WHAT or question_cat(question) == Q_type.HOW):
-        for g_word in GOOD_WORDS:
-            if re.search(g_word, question) != None:
-                print(g_word)
-                return True
-        for b_word in BAD_WORDS:
-            if re.search(b_word, question) != None:
-                print(b_word)
-                return False
-    return None
+def q_inc_or_dec(question: str) -> List[str]:
+    for g_word in GOOD_WORDS:
+        if re.search(g_word, question) != None:
+            return GOOD_WORDS
+    for b_word in BAD_WORDS:
+        if re.search(b_word, question) != None:
+            return BAD_WORDS
+    return [""]
 
-def find_line(question: str, filename: str):
-    first_file = open(filename, "r")
-    test1 = first_file.readlines()
-    answers = []
+def find_company(question: str):
     company_name = []
     for key in stock_dict:
         for word in stock_dict[key]:
-            if question in stock_dict[key]:
-                company_name = stock_dict[key]
-    print(company_name)
+            if word in question:
+                return key
+
+
+def find_line(question: str, filename: str, words: List[str]):
+    first_file = open(filename, "r")
+    test1 = first_file.readlines()
+    answers = []
+    company_name = stock_dict[find_company(question)]
     for line in test1:
         for name in company_name:
-            if name in line:
-                answers.append(line)
+            for word in words:
+                if name in line and re.findall(word, line) != []:
+                    answers.append(line)
     first_file.close()
     return answers
 
 
-def find_amt(company: str, line: str, question: str) -> str:
+def find_amt(company: str, line: str) -> str:
     match = ""
     for name in stock_dict[company]:
         if re.search(name, line) != None:
@@ -129,16 +131,73 @@ def find_amt(company: str, line: str, question: str) -> str:
                 print(numbers[0])
                 return numbers[0]
             else:
+                min_diff = 1000
+                closest = ''
                 for number in numbers:
-                    min_diff = 1000
-                    closest = ''
-                    if min_diff > (re.search(number, line).start() - match.start()):
-                        print(number)
-                        min_diff = abs(re.search(number, line).start() - match.start())
-                        print(min_diff)
+                    test = re.search(number, line).start() - match.start()
+                    if test <= min_diff:
+                        min_diff = test
                         closest = number
-                print(closest)
                 return closest
+
+def format_answers(question:str, filename: str):
+    q_cat = question_cat(question)
+    if q_cat == Q_type.INVALID:
+        print("Invalid question, try again")
+        return
+    if q_cat == Q_type.HOW:
+        words = []
+        if q_open_or_close(question):
+            words = ["[Oo]pen[ed]*"]
+        elif not q_open_or_close(question):
+            words = ["[Cc]lose[ed]*"]
+        else:
+            words = q_inc_or_dec(question)
+        lines = find_line(question, filename, words)
+        i = 1
+        if(lines == []):
+            print("No answers found\n")
+        else:
+            for line in lines:
+                print("A"+i+": "+find_amt(find_company(question), line)+"\n")
+                print("Source: "+line)
+                i = i + 1
+        return
+    if q_cat == Q_type.WHAT:
+        words = []
+        if q_open_or_close(question):
+            words = ["[Oo]pen[ed]*"]
+        elif not q_open_or_close(question):
+            words = ["[Cc]lose[ed]*"]
+        else:
+            words = q_inc_or_dec(question)
+        lines = find_line(question, filename, words)
+        i = 1
+        if(lines == []):
+            print("No answers found\n")
+        else:
+            for line in lines:
+                print("A"+i+": "+find_amt(find_company(question), line)+"\n")
+                print("Source: "+line)
+                i = i + 1
+        return
+    if q_cat == Q_type.DID:
+        words = q_inc_or_dec(question)
+        lines = find_line(question, filename, words)
+        i = 1
+        if(lines == []):
+            print("No answers found\n")
+        else:
+            for line in lines:
+                if(words == BAD_WORDS):
+                    print("A"+i+": It fell\n")
+                    print("Source: " + line+"\n")
+                elif(words == GOOD_WORDS):
+                    print("A"+i+": It rose\n")
+                    print("Source: " + line+"\n")
+                i = i + 1
+        return
+
 
             
 
@@ -151,7 +210,6 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
-    find_amt("DOW", "The Dow Jones Industrial Average jumped sharply yesterday to close at 2657.38, panic didn't sweep the world's markets, and investors large and small seemed to accept Friday's dizzying 190-point plunge as a sharp correction, not a calamity.", "How much did the Dow rise?")
     print("Done!")
 
 
