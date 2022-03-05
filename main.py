@@ -1,6 +1,7 @@
 from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
+import sys
 
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
@@ -99,9 +100,7 @@ def q_inc_or_dec(question: str) -> bool:
     return None
 
 
-def find_line(question: str) -> str:
-    first_file = open("test1.txt", "r")
-    test1 = first_file.readlines()
+def find_line(question: str, test1:list[str]) -> str:
     company_name = []
     for key in stock_dict:
         for word in stock_dict[key]:
@@ -113,7 +112,6 @@ def find_line(question: str) -> str:
         for name in company_name:
             if name in line:
                 print("found " + name + " in line " + line)
-    first_file.close()
 
 
 def find_amt(company: list[str], line: list[str]) -> int:
@@ -121,13 +119,10 @@ def find_amt(company: list[str], line: list[str]) -> int:
     return
 
 def main():
-    first_file = open("test1.txt", "r")
-    second_file = open("test2.txt", "r")
-    test1 = first_file.read()
-    test2 = second_file.read()
+    first_file = open(sys.argv[1], "r")
+    test1 = first_file.readlines()
     first_file.close()
-    second_file.close()
-    find_line("UAL")
+    find_line("UAL", test1)
     print("Done!")
 
 
