@@ -113,26 +113,33 @@ def find_line(question: str, filename: str):
         for name in company_name:
             if name in line:
                 answers.append(line)
-    return answers
     first_file.close()
+    return answers
 
 
 def find_amt(company: str, line: str, question: str) -> str:
-    word_list = []
-    if q_inc_or_dec(question):
-        word_list = GOOD_WORDS  
-        print("good works being used")
-    elif not q_inc_or_dec(question):
-        word_list = BAD_WORDS
-        print("bad words being used")
     match = ""
     for name in stock_dict[company]:
         if re.search(name, line) != None:
-            print(name)
             match = re.search(name, line)
             numbers = re.findall("[0-9]+[.]+[0-9]+|[0-9]+[\s]*[0-9]*[/]*[0-9]*|[0-9]+[.]*[0-9]*", line)
-            print(numbers)
-            return "hi"
+            if len(numbers) == 0:
+                return "NA"
+            elif len(numbers) == 1:
+                print(numbers[0])
+                return numbers[0]
+            else:
+                for number in numbers:
+                    min_diff = 1000
+                    closest = ''
+                    if min_diff > (re.search(number, line).start() - match.start()):
+                        print(number)
+                        min_diff = abs(re.search(number, line).start() - match.start())
+                        print(min_diff)
+                        closest = number
+                print(closest)
+                return closest
+
             
 
 
@@ -144,8 +151,7 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
-    sentence = "The Dow Jones Industrial Average jumped sharply yesterday to close at 2657.38, panic didn't sweep the world's markets, and investors large and small seemed to accept Friday's dizzying 3 1/2 190-point plunge as a sharp correction, not a calamity."
-    find_amt('DOW', sentence, "How much did the Dow rise?")
+    find_amt("DOW", "The Dow Jones Industrial Average jumped sharply yesterday to close at 2657.38, panic didn't sweep the world's markets, and investors large and small seemed to accept Friday's dizzying 190-point plunge as a sharp correction, not a calamity.", "How much did the Dow rise?")
     print("Done!")
 
 
