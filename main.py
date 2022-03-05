@@ -1,5 +1,4 @@
 from typing import List
-from nltk.tokenize import sent_tokenize, word_tokenize
 import re
 from enum import Enum
 
@@ -197,10 +196,6 @@ def format_answers(question:str, filename: str):
                     print("Source: " + line+"\n")
                 i = i + 1
         return
-
-
-            
-
 
 
 def main():
