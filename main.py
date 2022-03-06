@@ -211,13 +211,14 @@ def format_answers(question:str, filename: str):
 
 
 def main():
-    first_file = open("test1.txt", "r")
-    second_file = open("test2.txt", "r")
-    test1 = first_file.read()
-    test2 = second_file.read()
-    first_file.close()
-    second_file.close()
-    format_answers("Did Merrill Lynch rise or fall?", "test2.txt")
+    file = input("What is the name of the file you're looking at?")
+    while(1):
+        file = input("What is the name of the file you're looking at?\n")
+        question = input("Ask your question here, say QUIT to quit\n")
+        if question == "QUIT":
+            break
+        else:
+            format_answers(question, file)
     print("Done!")
 
 
