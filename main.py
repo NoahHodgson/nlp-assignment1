@@ -211,7 +211,6 @@ def format_answers(question:str, filename: str):
 
 
 def main():
-    file = input("What is the name of the file you're looking at?")
     while(1):
         file = input("What is the name of the file you're looking at?\n")
         question = input("Ask your question here, say QUIT to quit\n")
