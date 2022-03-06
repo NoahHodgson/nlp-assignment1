@@ -162,9 +162,10 @@ def format_answers(question:str, filename: str):
             print("No answers found\n")
         else:
             for line in lines:
-                print("A"+str(i)+": "+find_amt(find_company(question), line)+"\n")
-                print("Source: "+line)
-                i = i + 1
+                if find_amt(find_company(question), line) != "NA":
+                    print("A"+str(i)+": "+find_amt(find_company(question), line)+"\n")
+                    print("Source: "+line)
+                    i = i + 1
         return
     if q_cat == Q_type.WHAT:
         words = []

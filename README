@@ -1,0 +1,26 @@
+Tara Fishman (tmfish@udel.edu) and Noah Hodgson (noahmh@udel.edu)
+Assignment 1
+For this project, we only use our main file accompanyed by a plethora of helper functions
+We also utilized the re library in Python as that was our language of choice
+The reason we went with this library were for the functions .search() and .findall() as 
+the Match object created by the search was useful for finding indexes and the list from
+findall would get every instance, making it easy to search for them individually
+
+Our QA system will run with the test file of choice as a command line arguments and once
+ran, will ask the user for what question they would want to ask. It then will take in the 
+question and determine what type of question, between what, did, how, and invalid
+If it's asking for a open or closing value, it will set the desired words to the correct regular
+expressions. Otherwise, have it return the list from q_inc_or_dec which will return good words, 
+bad words, both or neither. Then, the program calls a function to search the lines that contain
+both the company in question and some form of the desired words set previously, then returning them.
+Now, based on what kind of question, it will return it rose or fell if it is a did question,
+then providing the source line and repeating for all lines. For how or what questions, it will go 
+line by line from the matching lines and only print the ones with the numerical value found using find_amt
+If it's invalid, it will say it's an invalid question type and if there is no answer, it will print no
+answers found. This loop will continue until the user enters in QUIT as the question. 
+
+Some issues that may come up is that the value may be the inclusion of extra characters when it comes to
+certain point values that need to be grabbed. Another interesting thing was how we determined which number
+value to take from a sentence using the .search command from the re library since it generates a start and end
+index for those found so it was comparing to see which start was closer to the company name and choosing that 
+one as the return value.
