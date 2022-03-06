@@ -2,6 +2,8 @@ from typing import List
 import re
 from enum import Enum
 
+from sympy import GoldenRatio
+
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
     'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
@@ -9,7 +11,6 @@ stock_dict={
     'AMR':['AMR', 'Alpha Metallurgical'],
     'American Airlines':['American Airlines', 'AAL'],
     'T. Rowe Price':['T. Rowe Price', 'TROW'],
-    'Merril Lynch':['Merril Lynch', 'MER'],
     'Commerzbank AG':['Commerzbank AG', 'CRZBY'],
     'Jefferies':['Jefferies', 'JEF'],
     'Shearson':['Shearson', 'SHL'],
@@ -22,6 +23,8 @@ stock_dict={
     'S&P':['S&P', 'Standard and Poor', 'Standard & Poor'],
     'Ogallala':['Ogallala'],
     'IDS':['IDS', 'Identillect'],
+    "DIS": ['Disney', "Walt Disney"],
+    "None": ["No Business"]
 }
 
 
@@ -38,7 +41,6 @@ GOOD_WORDS = [
     "[Bb]uy",
     "[Tt]urn[ed]* up",
     "[hH]igh[er]*",
-    "[uU]p",
     "[Rr][io]sen*",
     "[Jj]ump[ed]*"
 ]
@@ -48,7 +50,7 @@ BAD_WORDS = [
     "[Ww]ere off",
     "[Ff][ea]ll[en]*",
     "[hH]ard hit",
-    "[lL]os[te]",
+    "[lL]os[te]+[\s|.]+",
     "[Cc]ollapsed*",
     "[Hh]urt[ing]*",
     "[dD]rop[ped]*",
@@ -102,6 +104,7 @@ def find_company(question: str):
         for word in stock_dict[key]:
             if word in question:
                 return key
+    return "None"
 
 
 def find_line(question: str, filename: str, words: List[str]):
@@ -109,12 +112,15 @@ def find_line(question: str, filename: str, words: List[str]):
     test1 = first_file.readlines()
     answers = []
     company_name = stock_dict[find_company(question)]
-    for line in test1:
+    for word in words:
         for name in company_name:
-            for word in words:
-                if name in line and re.findall(word, line) != []:
-                    answers.append(line)
+            for line in test1:
+                if name in line:
+                    x = re.search(word, line)
+                    if x != None:
+                        answers.append(line)
     first_file.close()
+    answers = list(set(answers))
     return answers
 
 
@@ -123,17 +129,16 @@ def find_amt(company: str, line: str) -> str:
     for name in stock_dict[company]:
         if re.search(name, line) != None:
             match = re.search(name, line)
-            numbers = re.findall("[0-9]+[.]+[0-9]+|[0-9]+[\s]*[0-9]*[/]*[0-9]*|[0-9]+[.]*[0-9]*", line)
+            numbers = re.findall("[0-9]+[.]+[0-9]+|[0-9]+[\s]*[0-9]*[/]+[0-9]*|[0-9]+[.]*[0-9]*[\s|.]+|[0-9]+[-]+point", line)
             if len(numbers) == 0:
                 return "NA"
             elif len(numbers) == 1:
-                print(numbers[0])
                 return numbers[0]
             else:
                 min_diff = 1000
                 closest = ''
                 for number in numbers:
-                    test = re.search(number, line).start() - match.start()
+                    test = abs(re.search(number, line).start() - match.start())
                     if test <= min_diff:
                         min_diff = test
                         closest = number
@@ -148,9 +153,10 @@ def format_answers(question:str, filename: str):
         words = []
         if q_open_or_close(question):
             words = ["[Oo]pen[ed]*"]
-        elif not q_open_or_close(question):
+        elif not q_open_or_close(question) and q_open_or_close(question) != None:
             words = ["[Cc]lose[ed]*"]
         else:
+            print(q_inc_or_dec(question))
             words = q_inc_or_dec(question)
         lines = find_line(question, filename, words)
         i = 1
@@ -158,7 +164,7 @@ def format_answers(question:str, filename: str):
             print("No answers found\n")
         else:
             for line in lines:
-                print("A"+i+": "+find_amt(find_company(question), line)+"\n")
+                print("A"+str(i)+": "+find_amt(find_company(question), line)+"\n")
                 print("Source: "+line)
                 i = i + 1
         return
@@ -176,24 +182,30 @@ def format_answers(question:str, filename: str):
             print("No answers found\n")
         else:
             for line in lines:
-                print("A"+i+": "+find_amt(find_company(question), line)+"\n")
+                print("A"+str(i)+": "+find_amt(find_company(question), line)+"\n")
                 print("Source: "+line)
                 i = i + 1
         return
     if q_cat == Q_type.DID:
-        words = q_inc_or_dec(question)
-        lines = find_line(question, filename, words)
+        all_words = GOOD_WORDS
+        for b_word in BAD_WORDS:
+            all_words.append(b_word)
+        lines = find_line(question, filename, all_words)
         i = 1
         if(lines == []):
             print("No answers found\n")
         else:
             for line in lines:
-                if(words == BAD_WORDS):
-                    print("A"+i+": It fell\n")
-                    print("Source: " + line+"\n")
-                elif(words == GOOD_WORDS):
-                    print("A"+i+": It rose\n")
-                    print("Source: " + line+"\n")
+                for word in all_words:
+                    if re.search(word, line) != None: 
+                        if(word in BAD_WORDS):
+                            print("A"+str(i)+": It fell\n")
+                            print("Source: " + line+"\n")
+                            break
+                        else:
+                            print("A"+str(i)+": It rose\n")
+                            print("Source: " + line+"\n")
+                            break
                 i = i + 1
         return
 
@@ -205,6 +217,7 @@ def main():
     test2 = second_file.read()
     first_file.close()
     second_file.close()
+    format_answers("Did Merrill Lynch rise or fall?", "test2.txt")
     print("Done!")
 
 
