@@ -24,3 +24,5 @@ certain point values that need to be grabbed. Another interesting thing was how 
 value to take from a sentence using the .search command from the re library since it generates a start and end
 index for those found so it was comparing to see which start was closer to the company name and choosing that 
 one as the return value.
+
+Running on Python Version 3.9.7
