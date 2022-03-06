@@ -1,4 +1,4 @@
-from typing import List
+#!/usr/bin/env python3
 import re
 from enum import Enum
 import sys
@@ -88,7 +88,7 @@ def q_open_or_close(question: str) -> bool:
         return False
     return None
 
-def q_inc_or_dec(question: str) -> List[str]:
+def q_inc_or_dec(question: str) -> list[str]:
     for g_word in GOOD_WORDS:
         if re.search(g_word, question) != None:
             return GOOD_WORDS
@@ -106,7 +106,7 @@ def find_company(question: str):
     return "None"
 
 
-def find_line(question: str, filename: str, words: List[str]):
+def find_line(question: str, filename: str, words: list[str]):
     first_file = open(filename, "r")
     test1 = first_file.readlines()
     answers = []
@@ -216,6 +216,7 @@ def main():
         questions = questions.readlines()
         for question in questions:
             format_answers(question, file)
+        quit()
 
 
 if __name__ == "__main__":
