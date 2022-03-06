@@ -1,4 +1,3 @@
-import sys
 from typing import List
 import re
 from enum import Enum
@@ -23,6 +22,7 @@ stock_dict={
     'Ogallala':['Ogallala'],
     'IDS':['IDS', 'Identillect'],
     "DIS": ['Disney', "Walt Disney"],
+    'IBM': ['IBM'],
     "None": ["No Business"]
 }
 
@@ -151,7 +151,7 @@ def format_answers(question:str, filename: str):
     if q_cat == Q_type.HOW:
         words = []
         if q_open_or_close(question):
-            words = ["[Oo]pen[ed]*"]
+            words = ["[Oo]pen[ed]*", ["[Gg]round[ed]*"]]
         elif not q_open_or_close(question) and q_open_or_close(question) != None:
             words = ["[Cc]lose[ed]*"]
         else:
@@ -170,7 +170,7 @@ def format_answers(question:str, filename: str):
     if q_cat == Q_type.WHAT:
         words = []
         if q_open_or_close(question):
-            words = ["[Oo]pen[ed]*"]
+            words = ["[Oo]pen[ed]*", "[Ff]inal"]
         elif not q_open_or_close(question):
             words = ["[Cc]lose[ed]*"]
         else:
