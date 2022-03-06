@@ -2,8 +2,6 @@ from typing import List
 import re
 from enum import Enum
 
-from sympy import GoldenRatio
-
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
     'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
