@@ -1,6 +1,7 @@
-from typing import List
+#!/usr/bin/env python3
 import re
 from enum import Enum
+import sys
 
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
@@ -87,7 +88,7 @@ def q_open_or_close(question: str) -> bool:
         return False
     return None
 
-def q_inc_or_dec(question: str) -> List[str]:
+def q_inc_or_dec(question: str) -> list[str]:
     for g_word in GOOD_WORDS:
         if re.search(g_word, question) != None:
             return GOOD_WORDS
@@ -105,7 +106,7 @@ def find_company(question: str):
     return "None"
 
 
-def find_line(question: str, filename: str, words: List[str]):
+def find_line(question: str, filename: str, words: list[str]):
     first_file = open(filename, "r")
     test1 = first_file.readlines()
     answers = []
@@ -210,14 +211,13 @@ def format_answers(question:str, filename: str):
 
 #how to run python main.py NAME_OF_FILE
 def main():
-    while(1):
         file = sys.argv[1]
-        question = input("Ask your question here, say QUIT to quit\n")
-        if question == "QUIT":
-            break
-        else:
+        question_file = sys.argv[2]
+        questions = open(question_file, "r")
+        questions = questions.readlines()
+        for question in questions:
             format_answers(question, file)
-    print("Done!")
+        quit()
 
 
 if __name__ == "__main__":
