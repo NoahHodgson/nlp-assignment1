@@ -210,14 +210,12 @@ def format_answers(question:str, filename: str):
 
 #how to run python main.py NAME_OF_FILE
 def main():
-    while(1):
         file = sys.argv[1]
-        question = input("Ask your question here, say QUIT to quit\n")
-        if question == "QUIT":
-            break
-        else:
+        question_file = sys.argv[2]
+        questions = open(question_file, "r")
+        questions = questions.readlines()
+        for question in questions:
             format_answers(question, file)
-    print("Done!")
 
 
 if __name__ == "__main__":
