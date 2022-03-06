@@ -1,4 +1,3 @@
-import sys
 from typing import List
 import re
 from enum import Enum
@@ -6,7 +5,6 @@ from enum import Enum
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
     'UAL':['UAL', 'UAL Corp.', 'United Airlines'],
-    'Blue Chip':['Blue Chip'],
     'AMR':['AMR', 'Alpha Metallurgical'],
     'American Airlines':['American Airlines', 'AAL'],
     'T. Rowe Price':['T. Rowe Price', 'TROW'],
@@ -23,6 +21,7 @@ stock_dict={
     'Ogallala':['Ogallala'],
     'IDS':['IDS', 'Identillect'],
     "DIS": ['Disney', "Walt Disney"],
+    'IBM': ['IBM'],
     "None": ["No Business"]
 }
 
@@ -145,17 +144,17 @@ def find_amt(company: str, line: str) -> str:
 
 def format_answers(question:str, filename: str):
     q_cat = question_cat(question)
+    print(question+"\n")
     if q_cat == Q_type.INVALID:
         print("Invalid question, try again")
         return
     if q_cat == Q_type.HOW:
         words = []
         if q_open_or_close(question):
-            words = ["[Oo]pen[ed]*"]
+            words = ["[Oo]pen[ed]*", ["[Gg]round[ed]*"]]
         elif not q_open_or_close(question) and q_open_or_close(question) != None:
             words = ["[Cc]lose[ed]*"]
         else:
-            print(q_inc_or_dec(question))
             words = q_inc_or_dec(question)
         lines = find_line(question, filename, words)
         i = 1
@@ -170,7 +169,7 @@ def format_answers(question:str, filename: str):
     if q_cat == Q_type.WHAT:
         words = []
         if q_open_or_close(question):
-            words = ["[Oo]pen[ed]*"]
+            words = ["[Oo]pen[ed]*", "[Ff]inal"]
         elif not q_open_or_close(question):
             words = ["[Cc]lose[ed]*"]
         else:
