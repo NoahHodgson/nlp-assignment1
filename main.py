@@ -208,7 +208,7 @@ def format_answers(question:str, filename: str):
                 i = i + 1
         return
 
-
+#how to run python main.py NAME_OF_FILE
 def main():
     while(1):
         file = sys.argv[1]
