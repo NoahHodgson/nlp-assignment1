@@ -1,6 +1,7 @@
 from typing import List
 import re
 from enum import Enum
+import sys
 
 stock_dict={
     'DOW':['DOW', 'Dow Jones Industrial Average', 'Dow Industrial', 'the Dow', 'Dow Jones'],
