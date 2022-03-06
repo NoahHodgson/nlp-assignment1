@@ -1,3 +1,4 @@
+import sys
 from typing import List
 import re
 from enum import Enum
@@ -210,7 +211,7 @@ def format_answers(question:str, filename: str):
 
 def main():
     while(1):
-        file = input("What is the name of the file you're looking at?\n")
+        file = sys.argv[1]
         question = input("Ask your question here, say QUIT to quit\n")
         if question == "QUIT":
             break
